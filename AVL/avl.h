@@ -32,7 +32,7 @@ void left_righ_rot(Node **root);
 
 void righ_left_rot(Node **root);
 
-int removeNode(Node **root, DataType *data, int *decreased);
+int rmvNode(Node **root, DataType *data, int *decreased);
 
 int insertNode(Node **root, DataType *data, int *increased);
 
@@ -42,10 +42,12 @@ DataType *searchNode(Node *node, DataType *data);
 
 void destroyNode(Node *node);
 
+void findMin(Node **node);
+
 // Commom operations
 AVL *create();
 
-int remove(AVL *tree, DataType *data);
+int rmv(AVL *tree, DataType *data);
 
 int insert(AVL *tree, DataType *data);
 
