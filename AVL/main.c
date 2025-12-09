@@ -48,12 +48,7 @@ int main()
 
     show(tree);
 
-    //if(search(tree, &v4))
-    //    printf("Achou\n");
-    //else
-    //    printf("Nao achou\n");
-
-    rmv(tree, &v1);
+    rmv(tree, &v2);
 
     printf("\n");
     show(tree);

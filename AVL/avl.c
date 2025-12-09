@@ -113,9 +113,10 @@ void findMin(Node **node) {
 int rmvNode(Node **root, DataType *data, int *decreased) {
   if ((*root) == NULL)
     return 0;
-  showData((*root)->info);
+  showData(data);
+  int result = compData((*root)->info, data);
 
-  if (compData((*root)->info, data) == 0) {
+  if (result == 0) {
     if ((*root)->left == NULL && (*root)->right == NULL) {
       free((*root));
       (*root) = NULL;
@@ -137,13 +138,15 @@ int rmvNode(Node **root, DataType *data, int *decreased) {
       Node **node = &((*root)->right);
       findMin(node);
       (*root)->info = (*node)->info;
-      data = (*node)->info;
-      root = node;
+      data = (*root)->info;
+      result = 1;
+
     }
   }
-  printf("%d\n", compData((*root)->info, data));
+  showData(data);
+  printf("%d\n", result);
 
-  if (compData((*root)->info, data) == 1) {
+  if (result == 1) {
     if (rmvNode(&((*root)->right), data, decreased)) {
       if (*decreased) {
         switch ((*root)->bf) {
@@ -169,7 +172,7 @@ int rmvNode(Node **root, DataType *data, int *decreased) {
       return 1;
     } else
       return 0;
-  } else if (compData((*root)->info, data) == -1) {
+  } else if (result == -1) {
     if (rmvNode(&((*root)->left), data, decreased)) {
       if (*decreased) {
         switch ((*root)->bf) {
