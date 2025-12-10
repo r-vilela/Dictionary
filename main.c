@@ -44,8 +44,8 @@ int main() {
     printf(GREEN "1) Add word\n" RESET);
     printf(YELLOW "2) Search for Word\n" RESET);
     printf(YELLOW "3) List Words\n" RESET);
-    printf(ORANGE "4) Change Dictionary\n" RESET);
-    printf(ORANGE "5) Remove word\n" RESET);
+    printf(ORANGE "4) Remove word\n" RESET);
+    printf(ORANGE "5) Change Dictionary\n" RESET);
     printf(RED "0) Quit\n" RESET);
 
     printf(BOLD CYAN "Enter option: " RESET);
@@ -129,8 +129,6 @@ int main() {
           if (word == NULL) {
             printf(RED "Word not found ");
             printf(BOLD "%s\n" RESET, new.word);
-            printf(YELLOW "Want to try again? (Y/y) (N/n) ");
-            scanf(" %c", &opcChar);
           } else {
             printf(YELLOW "\tWord: ");
             printf(BOLD "%s\n" RESET, word->word);
@@ -138,12 +136,13 @@ int main() {
             printf(BOLD "%s\n" RESET, word->description);
             printf(YELLOW "\tTranslated: ");
             printf(BOLD "%s\n" RESET, word->translated);
-
-            printf(GREEN "Search for a word: " RESET);
           }
+          printf(YELLOW "Want to try again? (Y/y) (N/n) ");
+          scanf(" %c", &opcChar);
         }
 
         if (opcChar == 'y' || opcChar == 'y') {
+          printf(GREEN "Search for a word: " RESET);
           scanf(" %[^'\n']", new.word);
           if (isPort)
             word = searchWordPort(dict, &new);
@@ -193,10 +192,6 @@ int main() {
       break;
 
     case 4:
-      isPort = !isPort;
-      break;
-
-    case 5:
       strcpy(new.word, "0");
       int deleted = 0;
       opcChar = 'y';
@@ -233,6 +228,11 @@ int main() {
         }
       }
       break;
+
+    case 5:
+      isPort = !isPort;
+      break;
+
     case 0:
       clearScreen();
       printf(RED "SAVING . . .\n" RESET);
