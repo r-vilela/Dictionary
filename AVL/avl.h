@@ -44,17 +44,21 @@ void destroyNode(Node *node);
 
 void findMin(Node **node);
 
-// Commom operations
-AVL *create();
+// Main operations
+AVL *createAVL();
 
-int rmv(AVL *tree, DataType *data);
+int rmvAVL(AVL *tree, DataType *data);
 
-int insert(AVL *tree, DataType *data);
+int insertAVL(AVL *tree, DataType *data);
 
-DataType *search(AVL *tree, DataType *data);
+DataType *searchAVL(AVL *tree, DataType *data);
 
-void show(AVL *tree);
+void showAVL(AVL *tree);
 
-void destroy(AVL *tree);
+void destroyAVL(AVL *tree);
+
+DataType *getPosNode(Node *root, int *pos, int get);
+
+DataType *getPosAVL(AVL *tree, int get);
 
 #endif

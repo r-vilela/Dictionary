@@ -13,7 +13,7 @@ typedef struct avl {
   Node *root;
 } AVL;
 
-AVL *create() {
+AVL *createAVL() {
   AVL *tree = (AVL *)malloc(sizeof(AVL));
   if (tree == NULL)
     return NULL;
@@ -107,13 +107,19 @@ void right_left_rot(Node **root) {
 
 void findMin(Node **node) {
   while ((*node)->left != NULL)
-    node = &((*node)->left);
+    (*node) = (*node)->left;
 }
 
 int rmvNode(Node **root, DataType *data, int *decreased) {
   if ((*root) == NULL)
     return 0;
+  /*
+  printf("node: ");
+  showData((*root)->info);
+  printf("removendo: ");
   showData(data);
+  */
+
   int result = compData((*root)->info, data);
 
   if (result == 0) {
@@ -135,16 +141,14 @@ int rmvNode(Node **root, DataType *data, int *decreased) {
       (*decreased) = 1;
       return 1;
     } else {
-      Node **node = &((*root)->right);
-      findMin(node);
-      (*root)->info = (*node)->info;
+      Node *node = (*root)->right;
+      findMin(&node);
+      (*root)->info = node->info;
       data = (*root)->info;
-      result = 1;
 
+      result = 1;
     }
   }
-  showData(data);
-  printf("%d\n", result);
 
   if (result == 1) {
     if (rmvNode(&((*root)->right), data, decreased)) {
@@ -157,7 +161,7 @@ int rmvNode(Node **root, DataType *data, int *decreased) {
             right_rot(root);
           }
 
-          (*decreased) = 0;
+          (*decreased) = 1;
           break;
         case 0:
           (*root)->bf = -1;
@@ -178,7 +182,7 @@ int rmvNode(Node **root, DataType *data, int *decreased) {
         switch ((*root)->bf) {
         case -1:
           (*root)->bf = 0;
-          (*decreased) = 0;
+          (*decreased) = 1;
           break;
         case 0:
           (*root)->bf = 1;
@@ -200,12 +204,13 @@ int rmvNode(Node **root, DataType *data, int *decreased) {
   return 0;
 }
 
-int rmv(AVL *tree, DataType *data) {
+int rmvAVL(AVL *tree, DataType *data) {
   int decreased = 0;
   return rmvNode(&(tree->root), data, &decreased);
 }
 
 int insertNode(Node **root, DataType *data, int *increased) {
+
   if ((*root) == NULL) {
     (*root) = (Node *)malloc(sizeof(Node));
     if ((*root) == NULL)
@@ -221,7 +226,9 @@ int insertNode(Node **root, DataType *data, int *increased) {
     return 1;
   }
 
-  if (compData((*root)->info, data) == -1)
+  int result = compData((*root)->info, data);
+
+  if (result == -1)
     if (insertNode(&(*root)->left, data, increased)) {
       if (*increased) {
         switch ((*root)->bf) {
@@ -229,7 +236,7 @@ int insertNode(Node **root, DataType *data, int *increased) {
           if (((*root)->left)->bf == -1)
             right_rot(root);
           else
-            right_left_rot(root);
+            left_right_rot(root);
           *increased = 0;
           break;
         case 0:
@@ -245,7 +252,7 @@ int insertNode(Node **root, DataType *data, int *increased) {
       return 1;
     } else
       return 0;
-  else if (compData((*root)->info, data) == 1)
+  else if (result == 1)
     if (insertNode(&(*root)->right, data, increased)) {
       if (*increased) {
         switch ((*root)->bf) {
@@ -272,7 +279,7 @@ int insertNode(Node **root, DataType *data, int *increased) {
   return 0;
 }
 
-int insert(AVL *tree, DataType *data) {
+int insertAVL(AVL *tree, DataType *data) {
   int increased = 0;
   return insertNode(&(tree->root), data, &increased);
 }
@@ -291,7 +298,7 @@ void showNode(Node *root, int lvl) {
   showNode(root->right, lvl + 1);
 }
 
-void show(AVL *tree) { showNode(tree->root, 0); }
+void showAVL(AVL *tree) { showNode(tree->root, 0); }
 
 DataType *searchNode(Node *node, DataType *data) {
   if (node == NULL)
@@ -305,7 +312,7 @@ DataType *searchNode(Node *node, DataType *data) {
   return searchNode(node->left, data);
 }
 
-DataType *search(AVL *tree, DataType *data) {
+DataType *searchAVL(AVL *tree, DataType *data) {
   return searchNode(tree->root, data);
 }
 
@@ -318,8 +325,29 @@ void destroyNode(Node *node) {
   free(node);
 }
 
-void destroy(AVL *tree) {
+void destroyAVL(AVL *tree) {
   destroyNode(tree->root);
 
   free(tree);
+}
+
+DataType *getPosNode(Node *root, int *pos, int get) {
+  if (root == NULL || (*pos) > get)
+    return NULL;
+
+  if ((*pos) == get)
+    return root->info;
+  (*pos)++;
+  DataType *left = getPosNode(root->left, pos, get);
+  if (left != NULL)
+      return left;
+  DataType *right = getPosNode(root->right, pos, get);
+  if (right != NULL)
+      return right;
+  return NULL;
+}
+
+DataType *getPosAVL(AVL *tree, int get) {
+  int pos = 0;
+  return getPosNode(tree->root, &pos, get);
 }
