@@ -15,7 +15,7 @@ int compData(Word *data1, Word *data2) {
 }
 
 void showData(Word *data) {
-  printf("%d = %s \n\t%s - %s\n", data->id, data->word, data->description,
+  printf("%s \n\t\t%s - %s\n", data->word, data->description,
          data->translated);
 }
 
@@ -100,6 +100,15 @@ int insertWord(AVL *dict, Word *word) {
 
 void showDict(AVL *dict) { showAVL(dict); }
 
+void showDictIdx(AVL *dict, int start, int end) {
+  Word *word = getPosAVL(dict, start);
+  printf("imprimindo %d - %d\n", start, end);
+  for (; word != NULL && start <= end; start++, word = getPosAVL(dict, start)) {
+    printf("\t%d - ", start);
+    showData(word);
+  }
+}
+
 Word *searchWord(AVL *dict, Word *word) {
   word->id = createID(word->word);
 
@@ -132,6 +141,14 @@ int insertWordPort(Dict *dict, Word *word) {
 void showDictPort(Dict *dict) { showDict(dict->dictPort); }
 
 void showDictSpan(Dict *dict) { showDict(dict->dictSpan); }
+
+void showDictIdxPort(Dict *dict, int start, int end) {
+  showDictIdx(dict->dictPort, start, end);
+}
+
+void showDictIdxSpan(Dict *dict, int start, int end) {
+  showDictIdx(dict->dictSpan, start, end);
+}
 
 Word *searchWordPort(Dict *dict, Word *word) {
   return searchWord(dict->dictSpan, word);

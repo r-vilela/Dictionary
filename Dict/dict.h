@@ -25,6 +25,10 @@ void showDictPort(Dict *dict);
 
 void showDictSpan(Dict *dict);
 
+void showDictIdxPort(Dict *dict, int start, int end);
+
+void showDictIdxSpan(Dict *dict, int start, int end);
+
 Word *searchWordPort(Dict *dict, Word* word);
 
 Word *searchWordSpan(Dict *dict, Word* word);
@@ -43,6 +47,8 @@ int removeWord(AVL *dict, Word *word);
 int insertWord(AVL *dict, Word *word);
 
 void showDict(AVL *dict);
+
+void showDictIdx(AVL *dict, int start, int end);
 
 Word *searchWord(AVL *dict, Word* word);
 
