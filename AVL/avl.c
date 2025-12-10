@@ -189,7 +189,7 @@ int rmvNode(Node **root, DataType *data, int *decreased) {
           (*decreased) = 1;
           break;
         case 1:
-          if (((*root)->left)->bf == 1)
+          if (((*root)->right)->bf == -1)
             left_right_rot(root);
           else
             left_rot(root);
@@ -340,10 +340,10 @@ DataType *getPosNode(Node *root, int *pos, int get) {
   (*pos)++;
   DataType *left = getPosNode(root->left, pos, get);
   if (left != NULL)
-      return left;
+    return left;
   DataType *right = getPosNode(root->right, pos, get);
   if (right != NULL)
-      return right;
+    return right;
   return NULL;
 }
 
