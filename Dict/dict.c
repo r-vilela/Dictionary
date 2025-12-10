@@ -15,8 +15,7 @@ int compData(Word *data1, Word *data2) {
 }
 
 void showData(Word *data) {
-  printf("%s \n\t\t%s - %s\n", data->word, data->description,
-         data->translated);
+  printf("%s \n\t\t%s - %s\n", data->word, data->description, data->translated);
 }
 
 // Dict Setting
@@ -41,6 +40,7 @@ void loadDict(Dict *dict) {
   if (arqPort != NULL) {
     while (!feof(arqPort)) {
       Word word;
+      showData(&word);
       fscanf(arqPort, "%s %s %s\n", word.word, word.description,
              word.translated);
       insertWordPort(dict, &word);
@@ -52,13 +52,25 @@ void loadDict(Dict *dict) {
 void saveDict(Dict *dict) {
   Word *word = getPosAVL(dict->dictSpan, 0);
 
-  FILE *arq = fopen("dadosSpan.txt", "wa");
+  FILE *arqSpan = fopen("dadosSpan.txt", "wa");
 
   for (int i = 0; word != NULL; i++, word = getPosAVL(dict->dictSpan, i)) {
-    fprintf(arq, "%s %s %s\n", word->word, word->description, word->translated);
+    fprintf(arqSpan, "%s %s %s\n", word->word, word->description,
+            word->translated);
   }
-  fprintf(arq, "\n");
-  fclose(arq);
+  fprintf(arqSpan, "\n");
+  fclose(arqSpan);
+
+  word = getPosAVL(dict->dictPort, 0);
+
+  FILE *arqPort = fopen("dadosPort.txt", "wa");
+
+  for (int i = 0; word != NULL; i++, word = getPosAVL(dict->dictPort, i)) {
+    fprintf(arqPort, "%s %s %s\n", word->word, word->description,
+            word->translated);
+  }
+  fprintf(arqPort, "\n");
+  fclose(arqPort);
 }
 
 Dict *createDict() {
