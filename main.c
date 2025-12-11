@@ -44,8 +44,9 @@ int main() {
     printf(GREEN "1) Add word\n" RESET);
     printf(YELLOW "2) Search for Word\n" RESET);
     printf(YELLOW "3) List Words\n" RESET);
-    printf(ORANGE "4) Remove word\n" RESET);
-    printf(ORANGE "5) Change Dictionary\n" RESET);
+    printf(YELLOW "4) List Tree Words\n" RESET);
+    printf(ORANGE "5) Remove word\n" RESET);
+    printf(ORANGE "6) Change Dictionary\n" RESET);
     printf(RED "0) Quit\n" RESET);
 
     printf(BOLD CYAN "Enter option: " RESET);
@@ -93,31 +94,26 @@ int main() {
             scanf(" %[^'\n']", new.translated);
           else {
             if (isPort) {
-              if (!insertWordPort(dict, &new)) {
-                strcpy(new.word, "0");
-                strcpy(new.description, "0");
-                strcpy(new.translated, "0");
-              }
+              insertWordPort(dict, &new);
             } else {
-              if (!insertWordSpan(dict, &new)) {
-                printf("added\n");
-                strcpy(new.word, "0");
-                strcpy(new.description, "0");
-                strcpy(new.translated, "0");
-              }
+              insertWordSpan(dict, &new);
             }
+            strcpy(new.word, "0");
+            strcpy(new.description, "0");
+            strcpy(new.translated, "0");
             printf(YELLOW "\nWant to add another? (Y/y) (N/n) ");
             scanf(" %c", &opcChar);
           }
         }
       }
+      saveDict(dict);
       break;
     case 2:
       strcpy(new.word, "0");
       word = NULL;
       opcChar = 'y';
+      clearScreen();
       while (opcChar == 'y' || opcChar == 'Y') {
-        clearScreen();
         if (isPort)
           printf(BOLD CYAN "\t=== SEARCH FOR A PORTUGUESE WORD ===\n\n" RESET);
         else
@@ -144,10 +140,11 @@ int main() {
         if (opcChar == 'y' || opcChar == 'y') {
           printf(GREEN "Search for a word: " RESET);
           scanf(" %[^'\n']", new.word);
-          if (isPort)
+          if (isPort) {
             word = searchWordPort(dict, &new);
-          else
+          } else {
             word = searchWordSpan(dict, &new);
+          }
         }
       }
       break;
@@ -192,6 +189,28 @@ int main() {
       break;
 
     case 4:
+      opcChar = 'n';
+      while (opcChar != 'y' || opcChar != 'Y') {
+        clearScreen();
+        if (isPort)
+          printf(BOLD CYAN
+                 "\t=== LIST PORTUGUESE DICTIONARY TREE ===\n\n" RESET);
+        else
+          printf(BOLD CYAN
+                 "\t=== LIST SPANISH DICTIONARY TREE ===\n\n" RESET YELLOW);
+
+        if (isPort)
+          showDictPort(dict);
+        else
+          showDictSpan(dict);
+
+        printf(CYAN "Enter y/Y return to main: " RESET);
+        scanf(" %c", &opcChar);
+        break;
+      }
+      break;
+
+    case 5:
       strcpy(new.word, "0");
       int deleted = 0;
       opcChar = 'y';
@@ -227,9 +246,10 @@ int main() {
             deleted = removeWordSpan(dict, &new);
         }
       }
+      saveDict(dict);
       break;
 
-    case 5:
+    case 6:
       isPort = !isPort;
       break;
 
