@@ -58,5 +58,5 @@ The system automatically loads words from a `.txt` file on startup and updates t
 
 ## Notes
 
-* Ensure that the `words.txt` file is in the project root.
+* Ensure that the `dadosPort.txt` and `dadosSpan.txt` file is in the project root.
 * The program will create the file automatically if it does not exist.
