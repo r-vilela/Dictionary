@@ -1,5 +1,2 @@
 Cama Substantive Cama
-Rua Substantive Calle
-Porta Substantive Puerta
-Ganhar Verb Ganar
 

@@ -1,4 +1,3 @@
-#include "Dict/dict.h"
 #define _XOPEN_SOURCE_EXTENDED 1
 #include <dict.h>
 #include <stdio.h>
@@ -112,38 +111,37 @@ int main() {
       strcpy(new.word, "0");
       word = NULL;
       opcChar = 'y';
-      clearScreen();
       while (opcChar == 'y' || opcChar == 'Y') {
+        clearScreen();
         if (isPort)
           printf(BOLD CYAN "\t=== SEARCH FOR A PORTUGUESE WORD ===\n\n" RESET);
         else
           printf(BOLD CYAN "\t=== SEARCH FOR A SPANISH WORD ===\n\n" RESET);
 
-        if (new.word[0] == '0') {
-          printf(GREEN "Search for a word: " RESET);
-        } else {
-          if (word == NULL) {
-            printf(RED "Word not found ");
-            printf(BOLD "%s\n" RESET, new.word);
-          } else {
-            printf(YELLOW "\tWord: ");
-            printf(BOLD "%s\n" RESET, word->word);
-            printf(YELLOW "\tDescription: ");
-            printf(BOLD "%s\n" RESET, word->description);
-            printf(YELLOW "\tTranslated: ");
-            printf(BOLD "%s\n" RESET, word->translated);
-          }
-          printf(YELLOW "Want to try again? (Y/y) (N/n) ");
-          scanf(" %c", &opcChar);
-        }
-
         if (opcChar == 'y' || opcChar == 'y') {
-          printf(GREEN "Search for a word: " RESET);
-          scanf(" %[^'\n']", new.word);
-          if (isPort) {
-            word = searchWordPort(dict, &new);
+          if (new.word[0] != '0') {
+            if (word == NULL) {
+              printf(RED "Word not found ");
+              printf(BOLD "%s\n" RESET, new.word);
+            } else {
+              printf(YELLOW "\tWord: ");
+              printf(BOLD "%s\n" RESET, word->word);
+              printf(YELLOW "\tDescription: ");
+              printf(BOLD "%s\n" RESET, word->description);
+              printf(YELLOW "\tTranslated: ");
+              printf(BOLD "%s\n" RESET, word->translated);
+            }
+            printf(YELLOW "Want to try again? (Y/y) (N/n) ");
+            scanf(" %c", &opcChar);
+            strcpy(new.word, "0");
           } else {
-            word = searchWordSpan(dict, &new);
+            printf(GREEN "Search for a word: " RESET);
+            scanf(" %[^'\n']", new.word);
+            if (isPort) {
+              word = searchWordPort(dict, &new);
+            } else {
+              word = searchWordSpan(dict, &new);
+            }
           }
         }
       }

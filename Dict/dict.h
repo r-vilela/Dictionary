@@ -52,6 +52,4 @@ void showDictIdx(AVL *dict, int start, int end);
 
 Word *searchWord(AVL *dict, Word* word);
 
-int createID(char *word);
-
 #endif

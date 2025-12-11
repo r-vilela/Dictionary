@@ -6,16 +6,11 @@
 // AVL Setting
 
 int compData(Word *data1, Word *data2) {
-  if (data1->id == data2->id)
-    return 0;
-  if (data1->id > data2->id)
-    return -1;
-  else
-    return 1;
+  return strcmp(data1->word, data2->word);
 }
 
 void showData(Word *data) {
-  printf("%d - %s - %s - %s\n", data->id,  data->word, data->description, data->translated);
+  printf("%s - %s - %s\n", data->word, data->description, data->translated);
 }
 
 // Dict Setting
@@ -91,11 +86,7 @@ void destroyDict(Dict *dict) {
   free(dict);
 }
 
-int removeWord(AVL *dict, Word *word) {
-  word->id = createID(word->word);
-
-  return rmvAVL(dict, word);
-}
+int removeWord(AVL *dict, Word *word) { return rmvAVL(dict, word); }
 
 int insertWord(AVL *dict, Word *word) {
   Word *new = (Word *)malloc(sizeof(Word));
@@ -105,8 +96,6 @@ int insertWord(AVL *dict, Word *word) {
   strcpy(new->description, word->description);
   strcpy(new->translated, word->translated);
 
-  new->id = createID(new->word);
-
   return insertAVL(dict, new);
 }
 
@@ -114,25 +103,13 @@ void showDict(AVL *dict) { showAVL(dict); }
 
 void showDictIdx(AVL *dict, int start, int end) {
   Word *word = getPosAVL(dict, start);
-  printf("imprimindo %d - %d\n", start, end);
   for (; word != NULL && start <= end; start++, word = getPosAVL(dict, start)) {
     printf("\t%d - ", start);
     showData(word);
   }
 }
 
-Word *searchWord(AVL *dict, Word *word) {
-  word->id = createID(word->word);
-
-  return searchAVL(dict, word);
-}
-
-int createID(char *word) {
-  int total;
-  for (int i = total = 0; word[i] != '\0'; i++, total = total + i * word[i])
-    ;
-  return total;
-}
+Word *searchWord(AVL *dict, Word *word) { return searchAVL(dict, word); }
 
 int removeWordSpan(Dict *dict, Word *word) {
   return removeWord(dict->dictSpan, word);

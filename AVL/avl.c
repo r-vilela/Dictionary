@@ -150,7 +150,7 @@ int rmvNode(Node **root, DataType *data, int *decreased) {
     }
   }
 
-  if (result == 1) {
+  if (result > 0) {
     if (rmvNode(&((*root)->right), data, decreased)) {
       if (*decreased) {
         switch ((*root)->bf) {
@@ -176,7 +176,7 @@ int rmvNode(Node **root, DataType *data, int *decreased) {
       return 1;
     } else
       return 0;
-  } else if (result == -1) {
+  } else if (result < 0) {
     if (rmvNode(&((*root)->left), data, decreased)) {
       if (*decreased) {
         switch ((*root)->bf) {
@@ -228,7 +228,7 @@ int insertNode(Node **root, DataType *data, int *increased) {
 
   int result = compData((*root)->info, data);
 
-  if (result == -1)
+  if (result < 0)
     if (insertNode(&(*root)->left, data, increased)) {
       if (*increased) {
         switch ((*root)->bf) {
@@ -252,7 +252,7 @@ int insertNode(Node **root, DataType *data, int *increased) {
       return 1;
     } else
       return 0;
-  else if (result == 1)
+  else if (result > 0)
     if (insertNode(&(*root)->right, data, increased)) {
       if (*increased) {
         switch ((*root)->bf) {
@@ -305,7 +305,7 @@ DataType *searchNode(Node *node, DataType *data) {
 
   if (compData(node->info, data) == 0)
     return node->info;
-  if (compData(node->info, data) == 1)
+  if (compData(node->info, data) > 0)
     return searchNode(node->right, data);
 
   return searchNode(node->left, data);
