@@ -15,7 +15,7 @@ int compData(Word *data1, Word *data2) {
 }
 
 void showData(Word *data) {
-  printf("%s \n\t\t%s - %s\n", data->word, data->description, data->translated);
+  printf("%d - %s - %s - %s\n", data->id,  data->word, data->description, data->translated);
 }
 
 // Dict Setting
