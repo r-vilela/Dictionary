@@ -60,16 +60,16 @@ void left_right_rot(Node **root) {
 
   switch (son->bf) {
   case -1:
-    dad->bf = 1;
-    grandPa->bf = 0;
+    dad->bf = 0;
+    grandPa->bf = 1;
     break;
   case 0:
     dad->bf = 0;
     grandPa->bf = 0;
     break;
   case 1:
-    dad->bf = 0;
-    grandPa->bf = -1;
+    dad->bf = -1;
+    grandPa->bf = 0;
     break;
   }
   son->bf = 0;
@@ -274,9 +274,8 @@ int insertNode(Node **root, DataType *data, int *increased) {
         }
       }
       return 1;
-    }
-
-  return 0;
+    } else
+      return 0;
 }
 
 int insertAVL(AVL *tree, DataType *data) {
@@ -291,7 +290,7 @@ void showNode(Node *root, int lvl) {
   showNode(root->left, lvl + 1);
 
   for (int i = 0; i < lvl; i++)
-    printf("..");
+    printf("\t");
   printf("..");
   showData(root->info);
 
