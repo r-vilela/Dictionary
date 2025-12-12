@@ -7,7 +7,6 @@ typedef struct dict Dict;
 typedef struct data_type {
   int id;
   char word[40];
-  char description[40];
   char translated[40];
 } Word;
 

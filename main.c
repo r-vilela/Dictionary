@@ -54,7 +54,6 @@ int main() {
     switch (opc) {
     case 1:
       strcpy(new.word, "0");
-      strcpy(new.description, "0");
       strcpy(new.translated, "0");
       opcChar = 'y';
       while (opcChar == 'y' || opcChar == 'Y') {
@@ -70,16 +69,11 @@ int main() {
         if (new.word[0] != '0') {
           printf(YELLOW "\tWord: ");
           printf(BOLD "%s\n" RESET, new.word);
-          if (new.description[0] != '0') {
-            printf(YELLOW "\tDescription: ");
-            printf(BOLD "%s\n" RESET, new.description);
-            if (new.translated[0] != '0') {
-              printf(YELLOW "\tTranslated: ");
-              printf(BOLD "%s\n" RESET, new.translated);
-            } else
-              printf(YELLOW "\tTranslated: " RESET);
+          if (new.translated[0] != '0') {
+            printf(YELLOW "\tTranslated: ");
+            printf(BOLD "%s\n" RESET, new.translated);
           } else
-            printf(YELLOW "\tDescription: " RESET);
+            printf(YELLOW "\tTranslated: " RESET);
         } else {
           printf(YELLOW "\tWord: " RESET);
         }
@@ -87,8 +81,6 @@ int main() {
         if (opcChar == 'y' || opcChar == 'Y') {
           if (new.word[0] == '0')
             scanf(" %[^'\n']", new.word);
-          else if (new.description[0] == '0')
-            scanf(" %[^'\n']", new.description);
           else if (new.translated[0] == '0')
             scanf(" %[^'\n']", new.translated);
           else {
@@ -98,7 +90,6 @@ int main() {
               insertWordSpan(dict, &new);
             }
             strcpy(new.word, "0");
-            strcpy(new.description, "0");
             strcpy(new.translated, "0");
             printf(YELLOW "\nWant to add another? (Y/y) (N/n) ");
             scanf(" %c", &opcChar);
@@ -126,8 +117,6 @@ int main() {
             } else {
               printf(YELLOW "\tWord: ");
               printf(BOLD "%s\n" RESET, word->word);
-              printf(YELLOW "\tDescription: ");
-              printf(BOLD "%s\n" RESET, word->description);
               printf(YELLOW "\tTranslated: ");
               printf(BOLD "%s\n" RESET, word->translated);
             }
